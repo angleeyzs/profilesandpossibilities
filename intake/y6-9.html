@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parent Intake Form (Y6–Y9) — Profiles & Possibilities</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --acc:#2D6B52;
+  --acc2:#3d8a6a;
+  --acc-light:rgba(45,107,82,0.08);
+  --acc-mid:rgba(45,107,82,0.18);
+  --ink:#07080E;--ink2:#1A1C2C;
+  --cream:#FAF8F3;--warm:#F5F0E8;
+  --border:#DDD5C4;--stone:#4A4438;--stone2:#6A6058;
+  --surface:#FFFFFF;--error:#C0392B;
+}
+html{scroll-behavior:smooth;font-size:15px}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
+
+.site-header{background:var(--ink2);border-bottom:2px solid var(--acc);padding:18px 40px;display:flex;align-items:center;justify-content:space-between;}
+.header-logo{display:flex;align-items:center;gap:14px}
+.logo-mark{width:40px;height:40px;border-radius:8px;background:var(--acc);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:#fff;font-weight:700;letter-spacing:-1px;}
+.logo-text-main{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:#fff;line-height:1.1;font-variant-ligatures:none;}
+.logo-text-sub{font-size:8.5px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:rgba(45,107,82,0.7);margin-top:2px;}
+.header-badge{background:var(--acc-mid);border:1px solid var(--acc);border-radius:20px;padding:5px 14px;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--acc2);}
+
+.progress-wrap{background:var(--ink2);padding:10px 40px;border-bottom:1px solid rgba(255,255,255,0.06);}
+.progress-track{height:3px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--acc);border-radius:2px;transition:width 0.5s ease;width:0%;}
+.progress-labels{display:flex;justify-content:space-between;margin-top:8px;}
+.progress-step{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.3);transition:color 0.3s;}
+.progress-step.active{color:var(--acc2)}
+.progress-step.done{color:rgba(255,255,255,0.6)}
+
+.form-hero{background:var(--ink2);padding:56px 40px 48px;text-align:center;position:relative;overflow:hidden;}
+.form-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(45,107,82,0.15) 0%,transparent 65%);pointer-events:none;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--acc-mid);border:1px solid rgba(45,107,82,0.3);border-radius:20px;padding:5px 16px;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--acc2);margin-bottom:20px;}
+.hero-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--acc2);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,42px);font-weight:700;color:#fff;line-height:1.15;margin-bottom:12px;}
+.hero-title em{font-style:italic;color:var(--acc2)}
+.hero-subtitle{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:300;color:rgba(255,255,255,0.55);max-width:560px;margin:0 auto 24px;line-height:1.7;}
+.hero-meta{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;}
+.hero-meta-item{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:500;color:rgba(255,255,255,0.4);}
+.hero-meta-item svg{width:13px;height:13px;opacity:0.6}
+
+.form-outer{max-width:780px;margin:0 auto;padding:40px 24px 80px;}
+
+.form-section{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:24px;display:none;animation:fadeUp 0.4s ease both;}
+.form-section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.section-head{background:linear-gradient(135deg,var(--ink2) 0%,rgba(45,107,82,0.15) 100%);padding:22px 28px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:14px;}
+.section-number{width:32px;height:32px;border-radius:8px;background:var(--acc);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;margin-top:2px;}
+.section-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:#fff;margin-bottom:3px;}
+.section-desc{font-size:11px;color:rgba(255,255,255,0.45);line-height:1.5;letter-spacing:0.2px;}
+.section-body{padding:28px}
+
+.field{margin-bottom:24px}
+.field:last-child{margin-bottom:0}
+.field-label{display:block;font-size:12px;font-weight:600;color:var(--ink);letter-spacing:0.2px;margin-bottom:6px;}
+.field-label span.req{color:var(--acc);margin-left:2px}
+.field-hint{font-size:11px;color:var(--stone2);line-height:1.55;margin-bottom:8px;font-style:italic;}
+input[type=text],input[type=tel],textarea,select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:var(--surface);transition:border-color 0.2s,box-shadow 0.2s;outline:none;resize:vertical;}
+input[type=text]:focus,input[type=tel]:focus,textarea:focus,select:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-light);}
+textarea{min-height:100px;line-height:1.6}
+
+.options-list{display:flex;flex-direction:column;gap:8px}
+.option-item{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;font-size:12.5px;color:var(--ink);line-height:1.4;}
+.option-item:hover{border-color:var(--acc);background:var(--acc-light)}
+.option-item input{width:16px;height:16px;margin-top:1px;accent-color:var(--acc);cursor:pointer;flex-shrink:0;padding:0;border:none;box-shadow:none;}
+.option-item.selected{border-color:var(--acc);background:var(--acc-light);}
+
+.checkbox-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.checkbox-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1.5px solid var(--border);border-radius:7px;cursor:pointer;font-size:12px;color:var(--ink);transition:all 0.2s;}
+.checkbox-item:hover{border-color:var(--acc);background:var(--acc-light)}
+.checkbox-item input{accent-color:var(--acc);width:14px;height:14px;flex-shrink:0;padding:0;border:none;box-shadow:none;}
+.checkbox-item.selected{border-color:var(--acc);background:var(--acc-light);}
+
+.traits-table{width:100%;border-collapse:collapse;font-size:12px}
+.traits-table th{padding:8px 10px;background:var(--ink2);color:#fff;border:1px solid var(--border);font-size:11px;font-weight:600;text-align:center;}
+.traits-table td{padding:7px 10px;border:1px solid var(--border);font-size:12px;}
+.traits-table td:first-child{font-weight:500;color:var(--ink)}
+.traits-table td:not(:first-child){text-align:center}
+.traits-table tr:nth-child(even) td{background:var(--warm)}
+.grid-radio{accent-color:var(--acc);width:15px;height:15px;cursor:pointer}
+
+.routing-notice{background:var(--acc-light);border:1px solid rgba(45,107,82,0.25);border-radius:8px;padding:14px 16px;font-size:12px;color:var(--stone);display:flex;gap:10px;align-items:flex-start;margin-bottom:20px;}
+.routing-notice svg{width:16px;height:16px;color:var(--acc);flex-shrink:0;margin-top:1px}
+
+.year-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:4px;}
+.year-btn{padding:14px 8px;border:2px solid var(--border);border-radius:10px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--surface);}
+.year-btn:hover{border-color:var(--acc);background:var(--acc-light)}
+.year-btn.selected{border-color:var(--acc);background:var(--acc-light);}
+.year-btn input{display:none}
+.year-btn-label{font-size:15px;font-weight:700;color:var(--ink);display:block;margin-bottom:3px;}
+.year-btn-sub{font-size:9.5px;color:var(--stone2);font-weight:500;letter-spacing:0.3px;}
+.year-btn.selected .year-btn-label{color:var(--acc)}
+
+.form-nav{display:flex;align-items:center;justify-content:space-between;padding:20px 28px;border-top:1px solid var(--border);background:var(--warm);}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 22px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;}
+.btn-back{background:transparent;color:var(--stone);border:1.5px solid var(--border);}
+.btn-back:hover{background:var(--surface);color:var(--ink)}
+.btn-next{background:var(--acc);color:#fff;}
+.btn-next:hover{background:var(--acc2);transform:translateY(-1px);box-shadow:0 4px 14px rgba(45,107,82,0.3)}
+.btn-submit{background:var(--ink2);color:#fff;padding:12px 32px;font-size:13px;}
+.btn-submit:hover{background:var(--ink);transform:translateY(-1px)}
+.btn svg{width:14px;height:14px}
+
+.field-error{font-size:11px;color:var(--error);margin-top:5px;display:none;}
+.field.has-error input,.field.has-error textarea,.field.has-error select{border-color:var(--error)}
+.field.has-error .field-error{display:block}
+
+.returning-only{display:none}
+.new-only{display:block}
+
+.submit-overlay{display:none;position:fixed;inset:0;background:rgba(7,8,14,0.85);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:20px;}
+.submit-overlay.active{display:flex}
+.submit-spinner{width:48px;height:48px;border:3px solid rgba(45,107,82,0.3);border-top-color:var(--acc2);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.submit-msg{font-family:'Playfair Display',serif;font-size:18px;color:#fff;}
+
+.success-screen{display:none;min-height:60vh;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:60px 24px;}
+.success-screen.active{display:flex}
+.success-icon{width:72px;height:72px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:24px;}
+.success-title{font-family:'Playfair Display',serif;font-size:30px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+.success-sub{font-size:14px;color:var(--stone2);max-width:480px;line-height:1.7;margin-bottom:8px;}
+.success-email{font-size:12px;color:var(--acc);font-weight:600;}
+
+@media(max-width:600px){
+  .site-header{padding:14px 20px}
+  .form-hero{padding:40px 20px 36px}
+  .form-outer{padding:24px 16px 60px}
+  .section-body{padding:20px}
+  .form-nav{padding:16px 20px}
+  .checkbox-grid{grid-template-columns:1fr}
+  .year-selector{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="submit-overlay" id="submitOverlay">
+  <div class="submit-spinner"></div>
+  <div class="submit-msg">Submitting your profile…</div>
+</div>
+
+<header class="site-header">
+  <div class="header-logo">
+    <div class="logo-mark">P</div>
+    <div>
+      <div class="logo-text-main" style="font-variant-ligatures:none">Profiles & Possibilities</div>
+      <div class="logo-text-sub">Strategic Academic Advisory</div>
+    </div>
+  </div>
+  <div class="header-badge">Year 6–9 · Parent Intake</div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-labels">
+    <span class="progress-step active" id="pStep1">Administration</span>
+    <span class="progress-step" id="pStep2">Academic</span>
+    <span class="progress-step" id="pStep3">Character</span>
+    <span class="progress-step" id="pStep4">Activities</span>
+    <span class="progress-step" id="pStep5">Ambition</span>
+    <span class="progress-step" id="pStep6">Confirmation</span>
+  </div>
+</div>
+
+<div class="form-hero">
+  <div class="hero-eyebrow">
+    <div class="hero-eyebrow-dot"></div>
+    Years 6–9 · Parent Pre-Session Form
+  </div>
+  <h1 class="hero-title">
+    Understanding Your Child<br>
+    <em>Before We Meet Them</em>
+  </h1>
+  <p class="hero-subtitle">
+    This form captures your observations as a parent — your child's diagnostic session
+    happens live with Mariam. Please complete honestly and thoroughly.
+  </p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      10–12 minutes
+    </div>
+    <div class="hero-meta-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Strictly confidential
+    </div>
+    <div class="hero-meta-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      Parent responses only
+    </div>
+  </div>
+</div>
+
+<div class="form-outer">
+<form id="mainForm" novalidate>
+
+<!-- SECTION 1: ADMINISTRATION -->
+<div class="form-section active" id="sec1">
+  <div class="section-head">
+    <div class="section-number">1</div>
+    <div class="section-head-text">
+      <div class="section-title">Core Administration</div>
+      <div class="section-desc">Identity capture and client routing — Section A</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="field" id="f-yearGroup">
+      <label class="field-label">Which year group is your child currently in? <span class="req">*</span></label>
+      <div class="year-selector" id="yearGroupSelector">
+        <label class="year-btn" onclick="selectYear('Y6',this)">
+          <input type="radio" name="yearGroupSelect" value="Y6">
+          <span class="year-btn-label">Year 6</span>
+          <span class="year-btn-sub">Root Phase</span>
+        </label>
+        <label class="year-btn" onclick="selectYear('Y7',this)">
+          <input type="radio" name="yearGroupSelect" value="Y7">
+          <span class="year-btn-label">Year 7</span>
+          <span class="year-btn-sub">Shoot Phase</span>
+        </label>
+        <label class="year-btn" onclick="selectYear('Y8',this)">
+          <input type="radio" name="yearGroupSelect" value="Y8">
+          <span class="year-btn-label">Year 8</span>
+          <span class="year-btn-sub">Trunk Phase</span>
+        </label>
+        <label class="year-btn" onclick="selectYear('Y9',this)">
+          <input type="radio" name="yearGroupSelect" value="Y9">
+          <span class="year-btn-label">Year 9</span>
+          <span class="year-btn-sub">Branch Phase</span>
+        </label>
+      </div>
+      <div class="field-error">Please select your child's year group.</div>
+    </div>
+
+    <div class="field" id="f-childName">
+      <label class="field-label">Child's Profile Details <span class="req">*</span></label>
+      <p class="field-hint">Full name, date of birth (DD/MM/YYYY), current school name, and current year group.</p>
+      <textarea name="childDetails" id="childDetails" rows="3" placeholder="e.g. Layla Hassan · 08/09/2013 · GEMS Wellington Academy · Year 7"></textarea>
+      <div class="field-error">Please provide your child's profile details.</div>
+    </div>
+
+    <div class="field" id="f-curriculum">
+      <label class="field-label">Curriculum <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="curriculum" value="British (National Curriculum for England)"> British (National Curriculum for England)</label>
+        <label class="option-item"><input type="radio" name="curriculum" value="International Baccalaureate (IB / PYP / MYP)"> International Baccalaureate (IB / PYP / MYP)</label>
+        <label class="option-item"><input type="radio" name="curriculum" value="American"> American</label>
+        <label class="option-item"><input type="radio" name="curriculum" value="Indian (CBSE / ICSE)"> Indian (CBSE / ICSE)</label>
+        <label class="option-item"><input type="radio" name="curriculum" value="Other"> Other</label>
+      </div>
+      <div class="field-error">Please select a curriculum.</div>
+    </div>
+
+    <div class="field" id="f-clientType">
+      <label class="field-label">Are you a new or returning client? <span class="req">*</span></label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="clientType" value="New client" onchange="handleClientType('new')"> New client</label>
+        <label class="option-item"><input type="radio" name="clientType" value="Returning client" onchange="handleClientType('returning')"> Returning client</label>
+      </div>
+      <div class="field-error">Please select your client status.</div>
+    </div>
+
+    <div class="field" id="f-whatsapp">
+      <label class="field-label">Your WhatsApp Number <span class="req">*</span></label>
+      <p class="field-hint">Include country code. Used strictly for session confirmations and urgent updates.</p>
+      <input type="tel" name="parentWhatsApp" id="parentWhatsApp" placeholder="+971 50 123 4567">
+      <div class="field-error">Please provide your WhatsApp number.</div>
+    </div>
+
+  </div>
+  <div class="form-nav">
+    <span></span>
+    <button type="button" class="btn btn-next" onclick="nextSection(1)">
+      Continue
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- SECTION 2: ACADEMIC -->
+<div class="form-section" id="sec2">
+  <div class="section-head">
+    <div class="section-number">2</div>
+    <div class="section-head-text">
+      <div class="section-title">Academic Performance & Learning Profile</div>
+      <div class="section-desc">Section B — Your observations on your child's academic baseline</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="new-only" id="newAcademic">
+
+      <div class="field">
+        <label class="field-label">B1. How is your child currently performing across these subjects?</label>
+        <p class="field-hint">Select the most accurate descriptor for each subject.</p>
+        <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr>
+              <th style="padding:8px 10px;background:var(--warm);border:1px solid var(--border);font-weight:600;color:var(--stone);text-align:left;font-size:11px">Subject</th>
+              <th style="padding:8px 10px;background:var(--warm);border:1px solid var(--border);font-weight:600;color:var(--stone);text-align:center;font-size:11px">Strong</th>
+              <th style="padding:8px 10px;background:var(--warm);border:1px solid var(--border);font-weight:600;color:var(--stone);text-align:center;font-size:11px">Average</th>
+              <th style="padding:8px 10px;background:var(--warm);border:1px solid var(--border);font-weight:600;color:var(--stone);text-align:center;font-size:11px">Struggling</th>
+              <th style="padding:8px 10px;background:var(--warm);border:1px solid var(--border);font-weight:600;color:var(--stone);text-align:center;font-size:11px">Not studied</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:8px 10px;border:1px solid var(--border)">Mathematics</td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_maths" value="Strong"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_maths" value="Average"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_maths" value="Struggling"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_maths" value="Not studied"></td></tr>
+            <tr style="background:var(--warm)"><td style="padding:8px 10px;border:1px solid var(--border)">English / Languages</td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_english" value="Strong"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_english" value="Average"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_english" value="Struggling"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_english" value="Not studied"></td></tr>
+            <tr><td style="padding:8px 10px;border:1px solid var(--border)">Sciences</td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_sciences" value="Strong"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_sciences" value="Average"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_sciences" value="Struggling"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_sciences" value="Not studied"></td></tr>
+            <tr style="background:var(--warm)"><td style="padding:8px 10px;border:1px solid var(--border)">Humanities</td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_humanities" value="Strong"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_humanities" value="Average"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_humanities" value="Struggling"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_humanities" value="Not studied"></td></tr>
+            <tr><td style="padding:8px 10px;border:1px solid var(--border)">Computing / ICT</td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_computing" value="Strong"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_computing" value="Average"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_computing" value="Struggling"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_computing" value="Not studied"></td></tr>
+            <tr style="background:var(--warm)"><td style="padding:8px 10px;border:1px solid var(--border)">The Arts</td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_arts" value="Strong"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_arts" value="Average"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_arts" value="Struggling"></td><td style="text-align:center;border:1px solid var(--border)"><input type="radio" class="grid-radio" name="perf_arts" value="Not studied"></td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">B2. Which subject does your child engage with most naturally? <span class="req">*</span></label>
+        <p class="field-hint">Not just where they perform well — what they genuinely enjoy. Include why, if you've observed a specific reason.</p>
+        <textarea name="b2_naturalEngagement" placeholder="e.g. Mathematics — solves problems for fun, watches maths YouTube videos independently…"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label">B3. Which subject creates the most friction, avoidance, or reluctance? <span class="req">*</span></label>
+        <p class="field-hint">What do you think is the underlying cause behind this friction?</p>
+        <textarea name="b3_frictionSubject" placeholder="e.g. English writing — avoids starting essays, says he doesn't know what to write…"></textarea>
+      </div>
+
+      <div class="field">
+        <label class="field-label">B4. When your child gets something wrong or finds a task difficult, what do they typically do?</label>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="b4_difficultyResponse" value="Tries again independently"> Tries again on their own</label>
+          <label class="option-item"><input type="radio" name="b4_difficultyResponse" value="Asks for help immediately"> Asks for help immediately</label>
+          <label class="option-item"><input type="radio" name="b4_difficultyResponse" value="Gets frustrated and shuts down"> Gets frustrated and shuts down</label>
+          <label class="option-item"><input type="radio" name="b4_difficultyResponse" value="Avoids that subject or task afterwards"> Avoids that subject or task afterwards</label>
+          <label class="option-item"><input type="radio" name="b4_difficultyResponse" value="Does not seem bothered either way"> Does not seem bothered either way</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">B5. How would you describe your child's general effort versus their actual results?</label>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="b5_effortResults" value="Works hard and gets good results"> Works hard and gets good results</label>
+          <label class="option-item"><input type="radio" name="b5_effortResults" value="Works hard but results do not reflect the effort"> Works hard but results do not reflect the effort</label>
+          <label class="option-item"><input type="radio" name="b5_effortResults" value="Does not work much but results are fine"> Does not work much but results are fine</label>
+          <label class="option-item"><input type="radio" name="b5_effortResults" value="Does not work much and results show it"> Does not work much and results show it</label>
+          <label class="option-item"><input type="radio" name="b5_effortResults" value="Varies significantly depending on the subject"> Varies significantly depending on the subject</label>
+        </div>
+      </div>
+
+    </div><!-- /newAcademic -->
+
+    <div class="returning-only" id="retAcademic">
+      <div class="routing-notice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        As a returning client, this section focuses on live updates only — we already hold your baseline profile.
+      </div>
+      <div class="field">
+        <label class="field-label">R1. Current Academic Status Update</label>
+        <p class="field-hint">List any major updates on grades, end-of-term testing, or recent progress metrics since our last Blueprint cycle.</p>
+        <textarea name="r1_academicUpdate" placeholder="e.g. End of term report — strong in Maths, dropped in English writing component…"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">R2. Evolution of Extracurriculars & Interests</label>
+        <p class="field-hint">Any notable changes to commitments outside school since our last session?</p>
+        <textarea name="r2_extracurricularUpdate" placeholder="e.g. Dropped tennis · started coding club · moved up to competitive swimming squad…"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">R3. Primary Growth Friction Point This Term</label>
+        <div class="options-list">
+          <label class="option-item"><input type="radio" name="r3_frictionPoint" value="Foundational Gaps — sudden struggle with increasing curriculum abstraction"> Foundational Gaps — sudden struggle with increasing curriculum abstraction</label>
+          <label class="option-item"><input type="radio" name="r3_frictionPoint" value="Behavioural or Motivation Shifts — resistance to homework or drop in curiosity"> Behavioural / Motivation Shifts — resistance to homework or drop in curiosity</label>
+          <label class="option-item"><input type="radio" name="r3_frictionPoint" value="Executive Functioning — difficulty tracking tasks and staying organised"> Executive Functioning — difficulty tracking tasks and staying organised</label>
+          <label class="option-item"><input type="radio" name="r3_frictionPoint" value="Social & Peer Energy — changes in group dynamics draining academic focus"> Social & Peer Energy — changes draining academic focus</label>
+          <label class="option-item"><input type="radio" name="r3_frictionPoint" value="No significant friction — progressing smoothly, ready for high-level extensions"> No significant friction — ready for high-level specialised extensions</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">R4. Immediate Strategic Breakthrough Target</label>
+        <p class="field-hint">What is the single most critical focus area for this term's updated Blueprint?</p>
+        <textarea name="r4_breakthroughTarget" placeholder="Be specific about the outcome you need this term…"></textarea>
+      </div>
+    </div>
+
+  </div>
+  <div class="form-nav">
+    <button type="button" class="btn btn-back" onclick="prevSection(2)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <button type="button" class="btn btn-next" onclick="nextSection(2)">
+      Continue
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- SECTION 3: CHARACTER -->
+<div class="form-section" id="sec3">
+  <div class="section-head">
+    <div class="section-number">3</div>
+    <div class="section-head-text">
+      <div class="section-title">Character, Behaviour & Social Dynamics</div>
+      <div class="section-desc">Section C — Traits inventory and behavioural baselines</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="field">
+      <label class="field-label">C1. Character Traits Inventory</label>
+      <p class="field-hint">For each trait, select the column that best matches your child's current presentation.</p>
+      <div style="overflow-x:auto">
+      <table class="traits-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;width:55%">Trait</th>
+            <th>True / Consistent Strength</th>
+            <th>Inconsistent / Needs Development</th>
+          </tr>
+        </thead>
+        <tbody id="traitsBody"></tbody>
+      </table>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">C2. How does your child handle pressure?</label>
+      <p class="field-hint">Think of exams, competitions, public speaking, or being closely observed.</p>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="c2_pressureResponse" value="Thrives and performs better under pressure"> Thrives and performs better</label>
+        <label class="option-item"><input type="radio" name="c2_pressureResponse" value="Gets a bit nervous but manages fine"> Gets a bit nervous but manages fine</label>
+        <label class="option-item"><input type="radio" name="c2_pressureResponse" value="Becomes anxious and performance drops"> Becomes anxious and performance drops</label>
+        <label class="option-item"><input type="radio" name="c2_pressureResponse" value="Shuts down or refuses to participate"> Shuts down or refuses to participate</label>
+        <label class="option-item"><input type="radio" name="c2_pressureResponse" value="No real exposure to high-pressure situations yet"> No real exposure to high-pressure situations yet</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">C3. Who drives the academic ambition in your household?</label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="c3_ambitionDriver" value="Mostly my child — they push themselves"> Mostly my child — they push themselves</label>
+        <label class="option-item"><input type="radio" name="c3_ambitionDriver" value="Mostly us as parents"> Mostly us as parents</label>
+        <label class="option-item"><input type="radio" name="c3_ambitionDriver" value="Pretty balanced between child and parents"> Pretty balanced between child and parents</label>
+        <label class="option-item"><input type="radio" name="c3_ambitionDriver" value="Neither — it is a constant battle"> Neither — it is a constant battle</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">C4. How does your child relate to other children?</label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="c4_socialDynamics" value="Natural leader — others follow them"> Natural leader — others follow them</label>
+        <label class="option-item"><input type="radio" name="c4_socialDynamics" value="Gets along well but prefers small groups or pairs"> Gets along well but prefers small groups or pairs</label>
+        <label class="option-item"><input type="radio" name="c4_socialDynamics" value="More of an observer — happy on the sidelines"> More of an observer — happy on the sidelines</label>
+        <label class="option-item"><input type="radio" name="c4_socialDynamics" value="Competitive — always wants to be the best in the group"> Competitive — always wants to be the best in the group</label>
+        <label class="option-item"><input type="radio" name="c4_socialDynamics" value="Struggles socially — prefers adults or being alone"> Struggles socially — prefers adults or being alone</label>
+      </div>
+    </div>
+
+  </div>
+  <div class="form-nav">
+    <button type="button" class="btn btn-back" onclick="prevSection(3)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <button type="button" class="btn btn-next" onclick="nextSection(3)">
+      Continue
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- SECTION 4: ACTIVITIES -->
+<div class="form-section" id="sec4">
+  <div class="section-head">
+    <div class="section-number">4</div>
+    <div class="section-head-text">
+      <div class="section-title">Activities, Interests & Home Environment</div>
+      <div class="section-desc">Section D — Extracurriculars, screen time and study setup</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="field">
+      <label class="field-label">D1. What activities is your child actively doing outside school?</label>
+      <div class="checkbox-grid">
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Team sports (e.g. Football, Basketball)"> Team sports</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Individual sports (e.g. Tennis, Athletics, Horse riding)"> Individual sports</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Swimming"> Swimming</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Martial Arts"> Martial Arts</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Dance / Ballet"> Dance / Ballet</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Music Instrument"> Music Instrument</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Singing"> Singing</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Art / Design"> Art / Design</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Drama / Theatre"> Drama / Theatre</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Debate / Public Speaking"> Debate / Public Speaking</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Coding / Robotics"> Coding / Robotics</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Volunteering / Community work"> Volunteering / Community work</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Religious studies"> Religious studies</label>
+        <label class="checkbox-item"><input type="checkbox" name="d1_activities" value="Other"> Other</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">D2. For each activity, how long and at what level?</label>
+      <p class="field-hint">Example: Football · 2 years · school team / Piano · 3 years · ABRSM Grade 2</p>
+      <textarea name="d2_activityDepth" placeholder="List each activity with duration and current level…"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">D3. Screen time on a typical school night (after homework)</label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="d3_screenTime" value="Under 1 hour"> Under 1 hour</label>
+        <label class="option-item"><input type="radio" name="d3_screenTime" value="1–2 hours"> 1–2 hours</label>
+        <label class="option-item"><input type="radio" name="d3_screenTime" value="2–3 hours"> 2–3 hours</label>
+        <label class="option-item"><input type="radio" name="d3_screenTime" value="3+ hours"> 3+ hours</label>
+        <label class="option-item"><input type="radio" name="d3_screenTime" value="We do not currently monitor screen time"> We do not currently monitor screen time</label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="field-label">D4. Home study setup</label>
+      <div class="options-list">
+        <label class="option-item"><input type="radio" name="d4_studySetup" value="Dedicated quiet desk — studies independently"> Dedicated quiet desk — studies independently</label>
+        <label class="option-item"><input type="radio" name="d4_studySetup" value="Shared family table — mostly manages alone"> Shared family table — mostly manages alone</label>
+        <label class="option-item"><input type="radio" name="d4_studySetup" value="Needs someone present in the room to stay focused"> Needs someone present in the room to stay focused</label>
+        <label class="option-item"><input type="radio" name="d4_studySetup" value="No real structure — studies wherever and whenever"> No real structure — studies wherever and whenever</label>
+        <label class="option-item"><input type="radio" name="d4_studySetup" value="Still trying to establish a steady routine"> Still trying to establish a steady routine</label>
+      </div>
+    </div>
+
+  </div>
+  <div class="form-nav">
+    <button type="button" class="btn btn-back" onclick="prevSection(4)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <button type="button" class="btn btn-next" onclick="nextSection(4)">
+      Continue
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- SECTION 5: AMBITION & ASSESSMENTS -->
+<div class="form-section" id="sec5">
+  <div class="section-head">
+    <div class="section-number">5</div>
+    <div class="section-head-text">
+      <div class="section-title">Ambition, Potential & Assessments</div>
+      <div class="section-desc">Sections E & F — Strategic goals and historical data</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div class="field">
+      <label class="field-label">E1. Has your child ever stated what they want to be or do when they grow up?</label>
+      <p class="field-hint">Use their own words if possible. Even if it changes weekly — write the most recent one.</p>
+      <textarea name="e1_childAspirations" placeholder="e.g. 'I want to build robots' · 'I want to be a doctor like Uncle Samir' · changes every week…"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">E2. What do YOU believe your child is genuinely capable of that is not fully showing yet? <span class="req">*</span></label>
+      <p class="field-hint">Highlight latent potential or hidden strengths you have noticed as their parent.</p>
+      <textarea name="e2_latentPotential" placeholder="e.g. Incredible spatial reasoning when building Lego · picks up languages very fast · exceptional memory…"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">E3. What is the single most important objective for this term's Blueprint? <span class="req">*</span></label>
+      <p class="field-hint">Be as specific as possible. This is the core priority for our diagnostic strategy.</p>
+      <textarea name="e3_blueprintObjective" placeholder="e.g. Understand why she shuts down in Maths · build a reading habit · identify what subjects to prioritise for Y10…"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">E4. Complete this sentence:</label>
+      <p class="field-hint">My child is capable of ________ but is currently being held back by ________.</p>
+      <textarea name="e4_capacitySentence" placeholder="My child is capable of… but is currently being held back by…"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="field-label">F1. Has your child ever undergone formal external assessments?</label>
+      <p class="field-hint">This includes academic benchmarks, learning differences, or psychological evaluations (e.g. CAT4, GL Assessments, dyslexia screenings, ADHD evaluations, gifted talent identification). Write <em>Not assessed</em> if none apply.</p>
+      <textarea name="f1_historicalAssessments" placeholder="e.g. CAT4 taken April 2023 · above average Quantitative Reasoning · no formal learning assessments"></textarea>
+    </div>
+
+  </div>
+  <div class="form-nav">
+    <button type="button" class="btn btn-back" onclick="prevSection(5)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <button type="button" class="btn btn-next" onclick="nextSection(5)">
+      Review & Submit
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- SECTION 6: CONFIRMATION -->
+<div class="form-section" id="sec6">
+  <div class="section-head">
+    <div class="section-number">6</div>
+    <div class="section-head-text">
+      <div class="section-title">Confirmation & Document Submission</div>
+      <div class="section-desc">Final step — review and submit your profile</div>
+    </div>
+  </div>
+  <div class="section-body">
+
+    <div style="background:var(--acc-light);border:1px solid rgba(45,107,82,0.25);border-radius:10px;padding:20px 22px;margin-bottom:24px">
+      <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--ink);margin-bottom:8px">You're almost done.</div>
+      <p style="font-size:13px;color:var(--stone);line-height:1.7">Once submitted, your responses will be reviewed ahead of the Interactive Child Discovery Session with Mariam. Your child's live diagnostic will be conducted during that Zoom — this form is your foundation.</p>
+    </div>
+
+    <div style="background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:24px">
+      <div style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--stone);margin-bottom:12px">Next Steps After Submission</div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0">1</div>
+          <div style="font-size:12.5px;color:var(--stone);line-height:1.5">Email any recent school reports, CAT4 data, or relevant academic assessments to <strong style="color:var(--acc)">mariam@profilesandpossibilities.com</strong></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0">2</div>
+          <div style="font-size:12.5px;color:var(--stone);line-height:1.5">Include your child's full name clearly in the subject line of that email.</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div style="width:22px;height:22px;border-radius:50%;background:var(--acc);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0">3</div>
+          <div style="font-size:12.5px;color:var(--stone);line-height:1.5">Mariam will be in touch via WhatsApp to confirm your child's Interactive Discovery Zoom session date and time.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center">
+      <button type="button" class="btn btn-submit" onclick="submitForm()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><polyline points="20 6 9 17 4 12"/></svg>
+        Submit My Child's Profile
+      </button>
+      <div style="font-size:10.5px;color:var(--stone2);margin-top:10px">By submitting you confirm all information provided is accurate.</div>
+    </div>
+
+  </div>
+  <div class="form-nav">
+    <button type="button" class="btn btn-back" onclick="prevSection(6)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Back
+    </button>
+    <span></span>
+  </div>
+</div>
+
+</form>
+
+<div class="success-screen" id="successScreen">
+  <div class="success-icon">✓</div>
+  <div class="success-title">Profile Submitted</div>
+  <p class="success-sub">Thank you for sharing these insights. Your responses have been securely logged and will be reviewed ahead of your child's Interactive Discovery Session with Mariam.</p>
+  <p class="success-sub">Please email any school reports or assessment data to:</p>
+  <div class="success-email">mariam@profilesandpossibilities.com</div>
+</div>
+
+</div>
+
+<script>
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyqTOGqsqbWS2ddxx5HjVd7r9Txna5RYzyKUcb9o-NSB-s9i56pvNLj3AmKGjc1oPKO/exec';
+let currentSection = 1;
+let totalSections = 6;
+let clientType = 'new';
+let selectedYear = '';
+
+const YEAR_PHASES = { Y6:'Root', Y7:'Shoot', Y8:'Trunk', Y9:'Branch' };
+
+const TRAITS = [
+  'Curious','Persistent','Creative','Competitive','Empathetic',
+  'Independent','Organised','Leader','Analytical','Expressive',
+  'Confident','Collaborative','Easily distracted','Perfectionist',
+  'Avoids challenge','Gives up quickly','Anxious under pressure',
+  'Needs constant validation','Resistant to feedback','Overconfident','Overly dependent on adults'
+];
+
+function buildTraitsTable() {
+  const tbody = document.getElementById('traitsBody');
+  TRAITS.forEach((trait, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${trait}</td>
+      <td><input type="radio" class="grid-radio" name="trait_${i}" value="strength"></td>
+      <td><input type="radio" class="grid-radio" name="trait_${i}" value="needs_dev"></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function getTraitsData() {
+  const strengths = [], needsDev = [];
+  TRAITS.forEach((trait, i) => {
+    const val = document.querySelector(`input[name="trait_${i}"]:checked`);
+    if (val) {
+      if (val.value === 'strength') strengths.push(trait);
+      else needsDev.push(trait);
+    }
+  });
+  return { strengths: strengths.join('; '), needsDev: needsDev.join('; ') };
+}
+
+function selectYear(year, el) {
+  selectedYear = year;
+  document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  document.querySelector(`input[name="yearGroupSelect"][value="${year}"]`).checked = true;
+}
+
+function handleClientType(type) {
+  clientType = type;
+  document.querySelectorAll('.new-only').forEach(el => el.style.display = type === 'new' ? 'block' : 'none');
+  document.querySelectorAll('.returning-only').forEach(el => el.style.display = type === 'returning' ? 'block' : 'none');
+}
+
+document.addEventListener('change', e => {
+  if (e.target.type === 'radio') {
+    const name = e.target.name;
+    document.querySelectorAll(`input[name="${name}"]`).forEach(r => r.closest('.option-item')?.classList.remove('selected'));
+    e.target.closest('.option-item')?.classList.add('selected');
+  }
+  if (e.target.type === 'checkbox') {
+    e.target.closest('.checkbox-item')?.classList.toggle('selected', e.target.checked);
+  }
+});
+
+function updateProgress(sec) {
+  const pct = ((sec - 1) / (totalSections - 1)) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  for (let i = 1; i <= totalSections; i++) {
+    const el = document.getElementById('pStep' + i);
+    if (!el) continue;
+    el.classList.remove('active', 'done');
+    if (i < sec) el.classList.add('done');
+    else if (i === sec) el.classList.add('active');
+  }
+}
+
+function showSection(n) {
+  document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec' + n)?.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  currentSection = n;
+  updateProgress(n);
+}
+
+function nextSection(from) {
+  if (!validateSection(from)) return;
+  showSection(from + 1);
+}
+function prevSection(from) { showSection(from - 1); }
+
+function validateSection(sec) {
+  let valid = true;
+  if (sec === 1) {
+    if (!selectedYear) { document.getElementById('f-yearGroup').classList.add('has-error'); valid = false; }
+    else document.getElementById('f-yearGroup').classList.remove('has-error');
+    const cd = document.getElementById('childDetails');
+    if (!cd.value.trim()) { cd.closest('.field').classList.add('has-error'); valid = false; }
+    else cd.closest('.field').classList.remove('has-error');
+    if (!document.querySelector('input[name="curriculum"]:checked')) { document.getElementById('f-curriculum').classList.add('has-error'); valid = false; }
+    else document.getElementById('f-curriculum').classList.remove('has-error');
+    if (!document.querySelector('input[name="clientType"]:checked')) { document.getElementById('f-clientType').classList.add('has-error'); valid = false; }
+    else document.getElementById('f-clientType').classList.remove('has-error');
+    const wa = document.getElementById('parentWhatsApp');
+    if (!wa.value.trim()) { wa.closest('.field').classList.add('has-error'); valid = false; }
+    else wa.closest('.field').classList.remove('has-error');
+  }
+  if (sec === 2 && clientType === 'new') {
+    ['b2_naturalEngagement','b3_frictionSubject'].forEach(name => {
+      const el = document.querySelector(`[name="${name}"]`);
+      if (el && !el.value.trim()) { el.closest('.field').classList.add('has-error'); valid = false; }
+      else if (el) el.closest('.field').classList.remove('has-error');
+    });
+  }
+  if (!valid) {
+    const firstErr = document.querySelector('.form-section.active .has-error');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  return valid;
+}
+
+function getSubjectPerformance() {
+  const subjects = ['maths','english','sciences','humanities','computing','arts'];
+  return subjects.map(s => {
+    const val = document.querySelector(`input[name="perf_${s}"]:checked`);
+    return val ? `${s.charAt(0).toUpperCase()+s.slice(1)}: ${val.value}` : '';
+  }).filter(Boolean).join(' · ');
+}
+
+function collectFormData() {
+  const traits = getTraitsData();
+  const activities = [...document.querySelectorAll('input[name="d1_activities"]:checked')].map(c => c.value).join('; ');
+  return {
+    yearGroup: selectedYear,
+    'Submission Source': window.location.href,
+    'Client Type': getRadioValue('clientType'),
+    'Child Full Name': document.getElementById('childDetails').value.split(/[·,\n]/)[0].trim(),
+    'Date of Birth': (document.getElementById('childDetails').value.match(/\b(\d{1,2}\/\d{1,2}\/\d{4})\b/) || ['',''])[1],
+    'Current School': (document.getElementById('childDetails').value.split(/[·\n]/)[2] || '').trim(),
+    'Year Group': selectedYear,
+    'Curriculum': getRadioValue('curriculum'),
+    'Parent WhatsApp': document.getElementById('parentWhatsApp').value.trim(),
+    'B1: Subject Performance': getSubjectPerformance(),
+    'B2: Subject of Natural Engagement': getFieldValue('b2_naturalEngagement'),
+    'B3: Subject of Most Friction': getFieldValue('b3_frictionSubject'),
+    'B4: Response to Difficulty': getRadioValue('b4_difficultyResponse'),
+    'B5: Effort vs Results': getRadioValue('b5_effortResults'),
+    'C1: Character Traits (Strengths)': traits.strengths,
+    'C1: Character Traits (Needs Development)': traits.needsDev,
+    'C2: Handles Pressure': getRadioValue('c2_pressureResponse'),
+    'C3: Drives Academic Ambition': getRadioValue('c3_ambitionDriver'),
+    'C4: Social Dynamics': getRadioValue('c4_socialDynamics'),
+    'D1: Extracurricular Activities': activities,
+    'D2: Activity Duration & Level': getFieldValue('d2_activityDepth'),
+    'D3: Screen Time': getRadioValue('d3_screenTime'),
+    'D4: Home Study Setup': getRadioValue('d4_studySetup'),
+    'E1: Child Career Aspirations': getFieldValue('e1_childAspirations'),
+    'E2: Parent Latent Potential Observation': getFieldValue('e2_latentPotential'),
+    'E3: Blueprint Objective': getFieldValue('e3_blueprintObjective'),
+    'E4: Capacity Sentence': getFieldValue('e4_capacitySentence'),
+    'F1: Historical Assessments': getFieldValue('f1_historicalAssessments'),
+    'R1: Academic Status Update': getFieldValue('r1_academicUpdate'),
+    'R2: Extracurricular Evolution': getFieldValue('r2_extracurricularUpdate'),
+    'R3: Primary Friction Point': getRadioValue('r3_frictionPoint'),
+    'R4: Breakthrough Target': getFieldValue('r4_breakthroughTarget'),
+  };
+}
+
+function getRadioValue(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : '';
+}
+function getFieldValue(name) {
+  const el = document.querySelector(`[name="${name}"]`);
+  return el ? el.value.trim() : '';
+}
+
+async function submitForm() {
+  const data = collectFormData();
+  document.getElementById('submitOverlay').classList.add('active');
+  try {
+    await fetch(WEB_APP_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    document.getElementById('submitOverlay').classList.remove('active');
+    document.getElementById('mainForm').style.display = 'none';
+    document.getElementById('successScreen').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (err) {
+    document.getElementById('submitOverlay').classList.remove('active');
+    alert('There was a problem submitting. Please try again or contact mariam@profilesandpossibilities.com');
+  }
+}
+
+buildTraitsTable();
+updateProgress(1);
+handleClientType('new');
+</script>
+</body>
+</html>
